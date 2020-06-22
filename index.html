@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--import vue.js in the script tag-->
+    <script src='./vue.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!-- v-model is used to bind data in bidirectional way-->
+        <input type="text" v-model="inputValue"/>
+        <!-- use v-on: event to bind events on the html element -->
+        <button v-on:click="handleBtnClick">提交</button>
+        <ul>
+            <!-- v-for is used to iterate
+                here, we iterate item in the list and the content is item shown in the <li> tag
+            -->
+            <!-- <li v-for="item in list">{{item}}</li> -->
+            
+            <!--use template here, v-bind is one direction bind
+                content is a variable whose value is item in the list
+                index is the index of the array element
+                handleItemDelete is event happened function
+            -->
+            <todo-item v-bind:content="item"
+                       v-bind:index="index" 
+                       v-for="(item, index) in list" 
+                       @delete="handleItemDelete">
+            </todo-item>
+        </ul>
+    </div>
+
+    <script>
+        // create global component: name and template
+        // Vue.component("TodoItem", {
+        //     // super component pass data to child component through props
+        //     props: ['content'],
+        //     // template content
+        //     template: "<li>{{content}}</li>",
+        // });
+
+        // create local component (child component)
+        var TodoItem = {
+            // if child component want to use the data from super component,
+            // we must use props attribute to receive the data
+            // here we need to add index to props because the child component should receive this data from super component
+            props: ['content', 'index'],
+            template: "<li @click='handleItemClick'>{{content}}</li>",
+            methods: {
+                handleItemClick: function(){
+                    // child component pass event to super component through $emit
+                    // the event's name is delete and the parameter is this.index
+                    this.$emit("delete", this.index);
+                }
+            }
+        }
+
+        // create a Vue.js instance which is also the super component
+        var app = new Vue({
+            // el: declare use Vue to take up whose job
+            el: '#app',
+            // all the data is stored in this field
+            data: {
+                list: [],
+                inputValue: '',
+                todoValue: ''
+            },
+            // local components must be declared inside the Vue
+            components:  {
+                // if give a new name inside the vue
+                TodoItem: TodoItem
+            },
+            // methods is used to define some functions
+            methods:{
+                handleBtnClick: function(){
+                    // if we need to access the data in the data zone, we should use this pointer!
+                    this.list.push(this.inputValue);
+                    this.inputValue = '';
+                },
+
+                // super component's method which requires index from child component
+                handleItemDelete: function(index){
+                    // here we can delete current data which is clicked in the list
+                    this.list.splice(index,1);
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>
