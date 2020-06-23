@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--import vue.js in the script tag-->
+    <script src='./vue.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!--Method1 Interpolation expression
+        which is the same as v-text-->
+        {{name + ' Liu'}}
+        <!--Method2 v-text-->
+        <div v-text="name + ' Liu'"></div>
+        <!--Method3 v-html-->
+        <div v-html="name + ' Liu'"></div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                name: "Channing"
+            }
+        })
+    </script>
+</body>
+</html>
