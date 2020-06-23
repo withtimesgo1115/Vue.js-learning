@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue的样式绑定</title>
+    <style>
+        .activated{
+            color: red;
+        }
+    </style>
+    <!--import vue.js in the script tag-->
+    <script src='./vue.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Method 1 use class object to bind with the css style file
+             class's object bind     :class="{activated: isActivated}-->
+
+        <!-- Method 2 use class array to bind with the css style file
+             class's array bind     :class="[activated, activatedOne]"-->
+
+        <!-- Method 3 use style object to bind with the css style file
+            <div :style="styleObj" @click="handleDivClick">-->
+
+        <!-- Method 4 use style array to bind with the css style file-->
+
+        <!-- note that we should use :class= or :style= -->
+        <div :style=[styleObj] @click="handleDivClick">
+            Hello World
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            // data control the layout and its default value is false
+            data: {
+                //isActivated: false
+                //activated: "",
+                //activatedOne: "activated-one"
+                styleObj: {
+                    color: "black"
+                }
+            },
+            methods: {
+                handleDivClick: function(){
+                    // instance attribute 
+                    //this.isActivated = !this.isActivated;
+                    // if(this.activated === "activated"){
+                    //     this.activated = "";
+                    // }else{
+                    //     this.activated = "activated";
+                    // }
+                        this.styleObj.color = this.styleObj.color === "black" ? "red" : "black";
+                }
+            }
+        })
+    </script>
+</body>
+</html>
