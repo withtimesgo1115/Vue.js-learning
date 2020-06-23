@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue生命周期函数</title>
+    <!--引包-->
+    <script src='./vue.js'></script>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+
+    <script>
+        // vue实例
+        // 生命周期函数就是Vue实例在某一个时间点会自动执行的函数
+        var vm = new Vue({
+            el: '#app',
+            // if there is no template, use el's outer html as template to render
+            // else use template to render
+            template: "<div>{{test}}</div>",
+            data: {
+                test: "hello world"
+            },
+
+            //there are 11 lifecycle functions now
+            //here just remember 8 lifecycle functions that don't need to write inside methods keyword 
+
+            // work at partial initialization 
+            beforeCreate: function(){
+                console.log("beforeCreate");
+            },
+            created: function(){
+                console.log("created");
+            },
+            beforeMount: function(){
+                console.log(this.$el);
+                console.log("beforeMount");
+            },
+            // mounted: bind data and template then render on the page
+            mounted: function(){
+                console.log(this.$el);
+                console.log("mounted");
+            },
+            // only when the vue instance is destoyed using vm.$destroy()
+            // can these two lifecycle hook can make sense 
+            beforeDestroy: function(){
+                console.log("beforeDestroy");
+            },
+            destroyed: function(){
+                console.log("destroyed");
+            },
+            // only when the data has been changed, these two lifycycle hooks can make sense
+            beforeUpdate: function(){
+                console.log("beforeUpdate");
+            },
+            updated: function(){
+                console.log("updated");
+            }
+        })
+    </script>
+</body>
+</html>
