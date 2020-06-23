@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue实例</title>
+    <!--引包-->
+    <script src='./vue.js'></script>
+</head>
+
+<body>
+    <div id="root">
+        <!--点击事件-->
+        <div v-on:click='handleClick'>
+            <!--使用插值表达式表示数据-->
+            {{message}}
+        </div>
+        <!--使用tag来调用自定义模板-->
+        <item></item>
+    </div>
+
+    <script>
+        //全局模板 叫做item
+        Vue.component('item', {
+            template: '<div>Hello Item!</div>'
+        })
+
+        // vue实例
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                message: 'hello world'
+            },
+            methods: {
+                handleClick: function(){
+                    alert('hello')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
