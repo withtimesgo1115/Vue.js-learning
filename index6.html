@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性的setter和getter</title>
+    <!--import vue.js in the script tag-->
+    <script src='./vue.js'></script>
+</head>
+<body>
+    <div id="app">
+        {{fullName}}
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                firstName: "Channing",
+                lastName: "Liu"
+            },
+            // computed attributes' getter and setter
+            computed: {
+                fullName: {
+                    // get method which can return the result for current attribute
+                    get: function(){
+                        return this.firstName + " " + this.lastName
+                    },
+                    // set method which can influence get function further
+                    set: function(value){
+                        var arr = value.split(' ');
+                        this.firstName = arr[0];
+                        this.lastName = arr[1];
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
