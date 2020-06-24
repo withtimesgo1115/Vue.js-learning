@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue条件渲染</title>
+    <!--import vue.js in the script tag-->
+    <script src='./vue.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!--very similar effect but v-if will remove the dom if its js expression returns false
+            while v-show won't remove the dom and just hidden the dom
+        -->
+        <div v-if="show" data-test="v-if">{{message}}</div>
+        <div v-show="show" data-test="v-show">{{message}}</div>
+
+        <div v-if="show2">{{message}}</div>
+        <div v-else="show2">Bye World</div>
+
+        <div v-if="ifshow">
+            用户名: <input key="username" />
+        </div>
+        <div v-else>
+            邮箱名: <input key="email" />
+        </div>
+        
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                show: false,
+                show2: false,
+                message: "Hello, World",
+                ifshow: true
+            }
+        })
+    </script>
+</body>
+</html>
