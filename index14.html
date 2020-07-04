@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件间的传值(Bus/总线机制/观察者模式)</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--These are two sibling nodes and each will publish a content attribute-->
+        <child content="Dell"></child>
+        <child content="Lee"></child>
+    </div>
+
+    <script>
+        // 使用总线，并把总线作为Vue原型上的一个属性，之后所有的Vue实例都会具有这个总线属性
+        Vue.prototype.bus = new Vue()
+
+        //定义全局子组件
+        Vue.component('child', {
+            // 注意，不要直接用子组件的值修改父组件的值，但是可以借助数据(因为子组件只允许返回函数数据)和变量来实现
+            data: function(){
+                return {
+                    // 重新定义一个变量存储当前组件的content数据，这个数据是从其父组件接收过来的
+                    selfContent: this.content
+                }
+            },
+            // here use props to receive the properties 
+            props: {
+                // restrict data type
+                content: String
+            },
+            // this is template of this component
+            template: '<div @click="handleClick">{{selfContent}}</div>',
+            // 这里定义点击方法
+            methods: {
+                handleClick: function(){
+                    // 使用这个Vue实例的bus来向所有节点发布事件，事件名字叫change，附加data内容值
+                    this.bus.$emit('change', this.selfContent)
+                }
+            },
+            // 如何使得其他组件能够接收到这个数据呢？
+            // 使用生命周期函数中的mounted，当该Vue实例被挂载上时，调用此函数监听change事件并执行相应的回调
+            // 这里要注意this的指向！
+            mounted: function(){
+                var this_ = this
+                this.bus.$on('change', function(msg){
+                    this_.selfContent = msg
+                })
+            }
+        })
+
+        var vm = new Vue({
+            el: '#root'
+        })
+    </script>
+</body>
+</html>
